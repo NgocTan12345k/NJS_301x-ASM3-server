@@ -76,23 +76,23 @@ const signup = async (req, res, next) => {
 
 const isAuth = (req, res, next) => {
   console.log("req.isLogin-->", req.session.isLogIn);
-  if (!req.session.isLogIn) {
+  if (!req.session.user) {
     res.status(401).json("You are not logged in!");
   } else {
     return next();
   }
 };
 
-const sessionLogin = async (req, res, next) => {
-  // console.log("x--->", req.session.user);
-  // console.log("req.sessionID-->", req.sessionID);
-  // console.log("req.session.cookie-->", req.session.cookie);
-  if (req.sessionID) {
-    res.json({ loggedIn: true, user: req.session.user });
-  } else {
-    res.json({ loggedIn: false });
-  }
-};
+// const sessionLogin = async (req, res, next) => {
+//   // console.log("x--->", req.session.user);
+//   // console.log("req.sessionID-->", req.sessionID);
+//   // console.log("req.session.cookie-->", req.session.cookie);
+//   if (req.sessionID) {
+//     res.json({ loggedIn: true, user: req.session.user });
+//   } else {
+//     res.json({ loggedIn: false });
+//   }
+// };
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -120,7 +120,7 @@ const login = async (req, res, next) => {
         // console.log("req.session-->", req.session);
         req.session.user = temp;
         req.session.isLogIn = true;
-        console.log("req.session.user-->", req.session.user);
+        // console.log("req.session.user-->", req.session.user);
         res.status(200).json({ message: "Login successful", user: temp });
       } else {
         res.status(401).json({ message: "Wrong password" });
@@ -131,9 +131,19 @@ const login = async (req, res, next) => {
   }
 };
 
+const deleteSession = (req, res, next) => {
+  try {
+    req.session.destroy(function (err) {
+      return res.status(200).json({ session: "cannot access session here!" });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   signup,
   login,
-  sessionLogin,
   isAuth,
+  deleteSession,
 };

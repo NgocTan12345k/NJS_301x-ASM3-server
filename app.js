@@ -33,7 +33,12 @@ mongoose
     console.log(err);
   });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    credentials: true,
+  })
+);
 mongoose.set("strictQuery", true);
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
