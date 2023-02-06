@@ -14,7 +14,7 @@ const getId_userByRoomId = async (req, res, next) => {
   try {
     const id_counselor = "63cebfeb9da5ee68f0215dfe";
     const roomId = req.params.roomId;
-    // console.log("roomId-->", roomId);
+
     const messenger = await Messenger.find({ roomId: roomId });
 
     const id_user = messenger
@@ -25,7 +25,7 @@ const getId_userByRoomId = async (req, res, next) => {
         return value !== id_counselor;
       })
       .toString();
-    // console.log("id_user-->", id_user);
+
     res.status(200).json(id_user);
   } catch (error) {
     console.log(error);

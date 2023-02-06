@@ -4,8 +4,6 @@ const User = require("../models/user");
 const getAllMesenger = async (req, res, next) => {
   try {
     const messenger = await Messenger.find();
-    // console.log("messenger-->", messenger);
-
     res.status(200).json(messenger);
   } catch (error) {
     console.log(error);
@@ -25,9 +23,6 @@ const getMessengerDetail = async (req, res, next) => {
       id_user: id_user,
     });
 
-    // const messenger = await Messenger.find();
-    // console.log("messenger-->", messenger);
-
     res.status(200).json(messenger);
   } catch (error) {
     console.log(error);
@@ -41,11 +36,7 @@ const send = async (req, res, next) => {
     const id_counselor = req.query.id_counselor;
     const id_user = req.query.id_user;
 
-    // console.log("id_counselor-->", id_counselor);
-    // console.log("id_user-->", id_user);
-
     const data = {
-      // roomId: req.query.roomId,
       message: req.query.message,
       name: req.query.name,
       category: req.query.category,
@@ -57,8 +48,6 @@ const send = async (req, res, next) => {
         id_counselor: id_counselor,
         id_user: id_user,
       });
-
-      // console.log("messenger-->", messenger);
 
       messenger.content.push(data);
 
@@ -81,7 +70,6 @@ const conversation = async (req, res, next) => {
     const email = req.query.email;
     const roomId = req.query.roomId;
 
-    // console.log("email-->", email);
     // Tạo conversation khi user chưa đăng nhập
 
     if (email === "email_temp") {
@@ -96,8 +84,6 @@ const conversation = async (req, res, next) => {
         content: [],
       };
 
-      // console.log("data1-->", data1);
-
       // 1 cái của user
       const data2 = {
         id_counselor: id_user,
@@ -105,8 +91,6 @@ const conversation = async (req, res, next) => {
         roomId: roomId,
         content: [],
       };
-
-      // console.log("data2-->", data2);
 
       Messenger.insertMany(data1);
 
@@ -119,11 +103,7 @@ const conversation = async (req, res, next) => {
       // Tìm user để lấy id_user
       const user = await User.findOne({ email: email });
 
-      // console.log("user-->", user);
-
       const id_user = user._id.toString();
-
-      // console.log("id_user-->", id_user);
 
       // Tạo ra 2 cuộc trò chuyện
       // 1 cái của admin
@@ -134,8 +114,6 @@ const conversation = async (req, res, next) => {
         content: [],
       };
 
-      // console.log("data1-->", data1);
-
       // 1 cái của user
       const data2 = {
         id_counselor: id_user,
@@ -143,8 +121,6 @@ const conversation = async (req, res, next) => {
         roomId: roomId,
         content: [],
       };
-
-      // console.log("data2-->", data2);
 
       Messenger.insertMany(data1);
 
@@ -159,7 +135,7 @@ const conversation = async (req, res, next) => {
 
 const deleteMessenger = async (req, res, next) => {
   const roomId = req.params.roomId;
-  // console.log("roomId-->", roomId);
+
   try {
     await Messenger.deleteMany({ roomId: roomId });
     res.status(200).json("Delete Messenger success!");

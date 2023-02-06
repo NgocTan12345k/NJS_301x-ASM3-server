@@ -1,25 +1,6 @@
 const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema(
   {
-    // user: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "user",
-    //   required: true,
-    // },
-    // product: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "product",
-    //   required: true,
-    // },
-    // total: {
-    //   type: String,
-    //   required: true,
-    // },
-    // status: {
-    //   type: String,
-    //   required: true,
-    //   default: "Waiting for pay",
-    // },
     idUser: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",

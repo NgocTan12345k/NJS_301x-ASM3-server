@@ -25,12 +25,6 @@ const cartSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  //   idUser: String,
-  //   idProduct: String,
-  //   nameProduct: String,
-  //   priceProduct: String,
-  //   count: Number,
-  //   img: String,
 });
 
 const Cart = mongoose.model("cart", cartSchema);

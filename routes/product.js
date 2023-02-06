@@ -7,12 +7,9 @@ const fileStorage = multer.diskStorage({
     cb(null, "./public/images");
   },
   filename: (req, file, cb) => {
-    // console.log("file-->", file);
     cb(null, new Date().toISOString() + "_" + file.originalname);
   },
 });
-
-// console.log("fileStorage-->", fileStorage);
 
 const fileFilter = (req, file, cb) => {
   if (
@@ -26,19 +23,10 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// console.log("fileFilter-->", fileFilter);
-
-// const uploads = multer({
-//   // dest: "image",
-//   storage: fileStorage,
-//   fileFilter: fileFilter,
-// }).fields([{ name: "image", maxCount: 4 }]);
 const uploads = multer({
-  // dest: "image",
   storage: fileStorage,
   fileFilter: fileFilter,
 });
-// console.log("uploads--.", uploads);
 
 const productController = require("../controllers/product");
 
@@ -58,5 +46,6 @@ router.delete("/delete/:id", productController.deteleProduct);
 
 // UPDATE
 router.put("/update/:id", productController.updateProduct);
+router.put("/updateQuantity", productController.updateProductQuantity);
 
 module.exports = router;

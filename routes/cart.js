@@ -6,7 +6,7 @@ const authController = require("../controllers/auth");
 const isAuth = authController.isAuth;
 
 // POST
-// router.post("/getCartByUser/:id", cartController.getCartByUser);
+
 router.post("/add", isAuth, cartController.postAddToCart);
 
 // GET

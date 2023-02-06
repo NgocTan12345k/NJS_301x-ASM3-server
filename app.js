@@ -9,6 +9,10 @@ const http = require("http").Server(app);
 const socketio = require("socket.io");
 const io = socketio(http);
 const path = require("path");
+const helmet = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
+const fs = require("fs");
 
 const Messenger = require("./models/messenger");
 
@@ -17,7 +21,6 @@ const userRouter = require("./routes/user");
 const productRouter = require("./routes/product");
 const cartRouter = require("./routes/cart");
 const orderRouter = require("./routes/order");
-// const mailRouter = require("./routes/mail");
 const messengerRouter = require("./routes/messenger");
 
 dotenv.config();
@@ -40,6 +43,16 @@ app.use(
   })
 );
 mongoose.set("strictQuery", true);
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined", { stream: accessLogStream }));
+
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "images")));
@@ -79,8 +92,6 @@ io.on("connection", (socket) => {
       name: data.name,
       category: "receive",
     };
-    // console.log("newData-->", newData);
-    // console.log("newData.message-->", newData.message);
 
     if (newData.message.toLowerCase() !== "/end") {
       const postData = async () => {
@@ -120,7 +131,6 @@ app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/order", orderRouter);
-// app.use("/api/mail", mailRouter);
 app.use("/api/messenger", messengerRouter);
 
 http.listen(process.env.PORT || 3500, () => {

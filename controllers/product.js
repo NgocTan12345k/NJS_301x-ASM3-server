@@ -3,7 +3,6 @@ const Product = require("../models/product");
 const getAllProducts = async (req, res, next) => {
   try {
     const productList = await Product.find();
-    //   console.log("product-->", productList);
     res.status(200).json(productList);
   } catch (error) {
     console.log(error);
@@ -13,7 +12,6 @@ const getAllProducts = async (req, res, next) => {
 const getProductDetail = async (req, res, next) => {
   try {
     const productId = req.params.id;
-    // console.log("productId-->", productId);
     const productDetail = await Product.findById(productId);
     res.status(200).json(productDetail);
   } catch (error) {
@@ -23,16 +21,13 @@ const getProductDetail = async (req, res, next) => {
 
 const postAddProduct = async (req, res, next) => {
   try {
-    const { productName, category, price, short_desc, long_desc } = req.body;
-    // console.log("productName-->", productName);
-    // console.log("price-->", price);
+    const { productName, category, price, short_desc, long_desc, quantity } =
+      req.body;
     const images = req.files;
-    // console.log("images-->", images);
     if (Array.isArray(images) && images.length > 0) {
       const imagesList = images.map((item) => {
         return item.path;
       });
-      // console.log("imageList-->", imagesList);
 
       const [img1, img2, img3, img4] = imagesList;
 
@@ -59,12 +54,12 @@ const postAddProduct = async (req, res, next) => {
         price: price,
         short_desc: short_desc,
         long_desc: long_desc,
+        quantity: quantity,
         img1: z1,
         img2: z2,
         img3: z3,
         img4: z4,
       });
-      // console.log("newPro-->", newProduct);
       const savedProduct = newProduct.save();
       res.status(200).json(savedProduct);
     } else {
@@ -77,7 +72,6 @@ const postAddProduct = async (req, res, next) => {
 
 const deteleProduct = async (req, res, next) => {
   const id = req.params.id;
-  // console.log("productId-->", id);
   try {
     await Product.findByIdAndDelete(id);
     res.status(200).json("Delete Product successful!");
@@ -88,15 +82,33 @@ const deteleProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
   const id = req.params.id;
+
   try {
     const updateProduct = await Product.findByIdAndUpdate(
       id,
       { $set: req.body },
       { new: true }
     );
-    // console.log("req.body->", req.body);
-    // console.log("updateProduct-->", updateProduct);
+
     res.status(200).json(updateProduct);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateProductQuantity = async (req, res, next) => {
+  const idProductList = req.body.idProductList;
+  const countList = req.body.countList;
+
+  try {
+    for (let i = 0; i < idProductList.length; i++) {
+      await Product.findByIdAndUpdate(
+        { _id: idProductList[i] },
+        { $inc: { quantity: -countList[i] }, multi: true },
+        { new: true }
+      );
+    }
+    res.status(200).json("Update Product quantity successful!");
   } catch (error) {
     console.log(error);
   }
@@ -108,4 +120,5 @@ module.exports = {
   postAddProduct,
   deteleProduct,
   updateProduct,
+  updateProductQuantity,
 };

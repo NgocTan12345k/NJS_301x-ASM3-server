@@ -2,17 +2,6 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
 
-// Hàm tìm kiếm những sản phẩm mà user đã mua
-// const getCartByUser = async (req, res, next) => {
-//   const idUser = req.params.id;
-//   try {
-//     const carts = await Cart.find({ idUser: idUser });
-//     res.status(200).json(carts);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 // Hàm thêm sản phẩm vào giỏ hàng
 const postAddToCart = async (req, res, next) => {
   const idUser = req.query.idUser;
@@ -23,7 +12,6 @@ const postAddToCart = async (req, res, next) => {
 
   // Hàm tìm kiếm sản phẩm đã có trong giỏ hàng chưa
   const carts = await Cart.findOne({ idUser: idUser, idProduct: idProduct });
-  // console.log("carts-->", carts);
 
   try {
     if (!carts) {
@@ -39,9 +27,9 @@ const postAddToCart = async (req, res, next) => {
       res.status(200).json(savedCart);
     } else {
       const newCount = parseInt(carts.count) + parseInt(count);
-      // console.log("newCount-->", newCount);
+
       const cartId = carts._id.toString();
-      // console.log("cartID-->", cartId);
+
       const updateCart = await Cart.findByIdAndUpdate(
         cartId,
         {
@@ -49,7 +37,7 @@ const postAddToCart = async (req, res, next) => {
         },
         { new: true }
       );
-      // console.log("updateCArt-->", updateCart);
+
       res.status(200).json(updateCart);
     }
   } catch (error) {
@@ -62,13 +50,13 @@ const postAddToCart = async (req, res, next) => {
 const getCart = async (req, res, next) => {
   try {
     const cartList = await Cart.find();
-    // console.log("cartList-->", cartList);
+
     const idUser = req.query.idUser;
-    // console.log("idUser-->", idUser);
+
     const carts = cartList.filter((item) => {
       return item.idUser === idUser;
     });
-    // console.log("cart-->", carts);
+
     res.status(200).json(carts);
   } catch (error) {
     console.log(error);
@@ -94,23 +82,23 @@ const deleteCart = async (req, res, next) => {
 // Hàm sửa sản phẩm
 
 const updateCart = async (req, res, next) => {
-  const idUser = req.query.idUser;
-  const idProduct = req.query.idProduct;
-  const count = req.query.count;
+  const idCartList = req.body.idCartList;
+  const countList = req.body.countList;
   try {
-    await Cart.updateOne(
-      { idUser: idUser, idProduct: idProduct },
-      { count: count },
-      { new: true }
-    );
-    res.status(200).json("Product has been Updated");
+    for (let i = 0; i < idCartList.length; i++) {
+      await Cart.findByIdAndUpdate(
+        { _id: idCartList[i] },
+        { $inc: { count: countList[i] }, multi: true },
+        { new: true }
+      );
+    }
+    res.status(200).json("Update Cart count successful!");
   } catch (error) {
     console.log(error);
   }
 };
 
 module.exports = {
-  // getCartByUser,
   postAddToCart,
   getCart,
   deleteCart,
