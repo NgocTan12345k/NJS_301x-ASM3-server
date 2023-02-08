@@ -40,8 +40,8 @@ app.use(
   cors({
     // origin: ["http://localhost:3000", "http://localhost:3001"],
     origin: [
-      "https://njs-301x-asm3-client.vercel.app",
-      "https://njs-301x-asm3-admin-l437kf9rf-ngoctan12345k.vercel.app/",
+      "https://ecommerce-app-client-ne3cogwer-ngoctan12345k.vercel.app",
+      "https://njs-301x-asm3-admin-900di0qpv-ngoctan12345k.vercel.app",
     ],
     credentials: true,
   })
