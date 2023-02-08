@@ -23,11 +23,11 @@ const signup = async (req, res, next) => {
 
   try {
     if (userNameList.includes(userName) === true) {
-      res.status(401).json({ message: "UserName already exists" });
+      res.status(200).json({ message: "UserName already exists" });
     } else if (emailList.includes(email) === true) {
-      res.status(401).json({ message: "Email already exists" });
+      res.status(200).json({ message: "Email already exists" });
     } else if (phoneList.includes(phone) === true) {
-      res.status(401).json({ message: "Phone already exists" });
+      res.status(200).json({ message: "Phone already exists" });
     } else {
       let encryptedPassword = "";
       bcrypt.hash(password, 12, async (err, hash) => {
@@ -54,7 +54,7 @@ const signup = async (req, res, next) => {
 
 const isAuth = (req, res, next) => {
   if (!req.sessionID) {
-    res.status(401).json("You are not logged in!");
+    res.status(200).json("You are not logged in!");
   } else {
     return next();
   }
@@ -84,11 +84,11 @@ const login = async (req, res, next) => {
         req.session.user = temp;
         res.status(200).json({ message: "Login successful", user: temp });
       } else {
-        res.status(401).json({ message: "Wrong password" });
+        res.status(200).json({ message: "Wrong password" });
       }
     });
   } else {
-    res.status(401).json({ message: "Wrong email" });
+    res.status(200).json({ message: "Wrong email" });
   }
 };
 

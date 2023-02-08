@@ -2,12 +2,16 @@ const Order = require("../models/order");
 const nodemailer = require("nodemailer");
 const senGridTransport = require("nodemailer-sendgrid-transport");
 const Cart = require("../models/cart");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport(
   senGridTransport({
     auth: {
       api_key:
-        "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",
+        // "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",
+        process.env.API_KEY_SENGRID,
     },
   })
 );
@@ -119,7 +123,6 @@ const getOrder = async (req, res, next) => {
 
 const getOrderDetail = async (req, res, next) => {
   const idOrder = req.params.id;
-  console.log("idOrder-->", idOrder);
 
   const orderDetail = await Order.findById(idOrder);
   try {

@@ -34,7 +34,6 @@ const postAddProduct = async (req, res, next) => {
       const x1 = img1.split("/").slice(1);
       const y1 = x1.unshift("http://localhost:3500");
       const z1 = x1.join("/");
-      console.log("z1-->", z1);
 
       const x2 = img2.split("/").slice(1);
       const y2 = x2.unshift("http://localhost:3500");
