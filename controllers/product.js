@@ -32,19 +32,19 @@ const postAddProduct = async (req, res, next) => {
       const [img1, img2, img3, img4] = imagesList;
 
       const x1 = img1.split("/").slice(1);
-      const y1 = x1.unshift("http://localhost:3500");
+      const y1 = x1.unshift("https://ecommerce-app-server.onrender.com");
       const z1 = x1.join("/");
 
       const x2 = img2.split("/").slice(1);
-      const y2 = x2.unshift("http://localhost:3500");
+      const y2 = x2.unshift("https://ecommerce-app-server.onrender.com");
       const z2 = x2.join("/");
 
       const x3 = img3.split("/").slice(1);
-      const y3 = x3.unshift("http://localhost:3500");
+      const y3 = x3.unshift("https://ecommerce-app-server.onrender.com");
       const z3 = x3.join("/");
 
       const x4 = img4.split("/").slice(1);
-      const y4 = x4.unshift("http://localhost:3500");
+      const y4 = x4.unshift("https://ecommerce-app-server.onrender.com");
       const z4 = x4.join("/");
 
       const newProduct = await Product({
