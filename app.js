@@ -38,7 +38,11 @@ mongoose
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    // origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "https://njs-301x-asm3-client.vercel.app",
+      "https://njs-301x-asm3-admin-l437kf9rf-ngoctan12345k.vercel.app/",
+    ],
     credentials: true,
   })
 );
