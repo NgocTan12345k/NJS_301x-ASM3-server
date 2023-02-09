@@ -101,12 +101,14 @@ const postOrder = async (req, res, next) => {
       "</br>" +
       "<p>Cảm ơn bạn!</p>";
 
-    return transporter.sendMail({
+    transporter.sendMail({
       from: "tanbnfx15317@funix.edu.vn",
       to: email,
       subject: "Order succeeded!",
       html: htmlResult,
     });
+    console.log("save-->", savedOrder);
+    res.status(200).json(savedOrder);
   } catch (error) {
     console.log("Error gui mail");
     console.log(error);
