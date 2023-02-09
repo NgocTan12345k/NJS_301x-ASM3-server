@@ -101,7 +101,7 @@ const postOrder = async (req, res, next) => {
       "</br>" +
       "<p>Cảm ơn bạn!</p>";
 
-    transporter.sendMail({
+    await transporter.sendMail({
       from: "tanbnfx15317@funix.edu.vn",
       to: email,
       subject: "Order succeeded!",
