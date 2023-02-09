@@ -6,16 +6,6 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport(
-  senGridTransport({
-    auth: {
-      api_key:
-        // "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",
-        process.env.API_KEY_SENGRID,
-    },
-  })
-);
-
 const postOrder = async (req, res, next) => {
   const {
     idUser,
@@ -49,6 +39,16 @@ const postOrder = async (req, res, next) => {
     const savedOrder = await newOrder.save();
 
     // SEND MAIL
+
+    const transporter = nodemailer.createTransport(
+      senGridTransport({
+        auth: {
+          api_key:
+            // "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",
+            process.env.API_KEY_SENGRID,
+        },
+      })
+    );
 
     const htmlHead =
       '<table style="width:50%">' +
