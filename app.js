@@ -40,7 +40,8 @@ app.use(
   cors({
     // origin: ["http://localhost:3000", "http://localhost:3001"],
     origin: [
-      "https://njs-301x-asm3-client.vercel.app",
+      // "https://njs-301x-asm3-client.vercel.app",
+      "http://localhost:3000",
       "https://njs-301x-asm3-admin.vercel.app",
     ],
     credentials: true,
