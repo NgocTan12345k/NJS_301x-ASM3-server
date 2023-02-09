@@ -40,6 +40,9 @@ const postOrder = async (req, res, next) => {
 
     // SEND MAIL
 
+    console.log("env-->", process.env.API_KEY_SENGRID);
+    copnsole.log("Hello");
+
     const transporter = nodemailer.createTransport(
       senGridTransport({
         auth: {
@@ -105,6 +108,7 @@ const postOrder = async (req, res, next) => {
       html: htmlResult,
     });
   } catch (error) {
+    console.log("Error gui mail");
     console.log(error);
   }
 };
