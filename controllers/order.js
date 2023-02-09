@@ -40,15 +40,10 @@ const postOrder = async (req, res, next) => {
 
     // SEND MAIL
 
-    console.log("env-->", process.env.API_KEY_SENGRID);
-    copnsole.log("Hello");
-
     const transporter = nodemailer.createTransport(
       senGridTransport({
         auth: {
-          api_key:
-            // "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",
-            process.env.API_KEY_SENGRID,
+          api_key: process.env.API_KEY_SENGRID,
         },
       })
     );
@@ -107,10 +102,8 @@ const postOrder = async (req, res, next) => {
       subject: "Order succeeded!",
       html: htmlResult,
     });
-    console.log("save-->", savedOrder);
     res.status(200).json(savedOrder);
   } catch (error) {
-    console.log("Error gui mail");
     console.log(error);
   }
 };
